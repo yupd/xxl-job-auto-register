@@ -2,7 +2,33 @@
 
 **********************************
 
-自动注册xxl-job执行器以及任务
+> 自动注册xxl-job执行器以及任务
+
+- 减少参数配置。
+
+```properties
+# 【已删除】执行器名称，使用 xxl.job.executor.appname 作为名称
+xxl.job.executor.title=Exe-Titl
+# 【默认为手动注册】执行器地址类型：0=自动注册、1=手动录入，默认为1
+xxl.job.executor.addressType=1
+# 【已删除】使用原生的实现逻辑获取address
+xxl.job.executor.addressList=http://127.0.0.1:9999
+```
+
+- 注解配置优化
+```java
+public class TestService {
+    @XxlRegister(cron = "0 0 0 * * ? *",
+            author = "hydra",
+            jobDesc = "测试job",
+            disabled = true, // 将原属性 triggerStatus 改成 disabled
+            overwrite = true // 增加此配置，支持任务更新操作
+    )
+    public void testJob() {}
+}
+```
+
+- 支持任务自动更新操作。
 
 ## 1、打包
 
@@ -42,14 +68,6 @@ xxl.job.executor.logretentiondays=30
 xxl.job.admin.username=admin
 # admin 密码
 xxl.job.admin.password=123456
-# 执行器名称
-xxl.job.executor.title=Exe-Titl
-
-# 新增配置项，可选项
-# 执行器地址类型：0=自动注册、1=手动录入，默认为0
-xxl.job.executor.addressType=1
-# 在上面为1的情况下，手动录入执行器地址列表，多地址逗号分隔
-xxl.job.executor.addressList=http://127.0.0.1:9999
 ```
 
 `XxlJobSpringExecutor`参数配置与之前相同
@@ -61,10 +79,14 @@ xxl.job.executor.addressList=http://127.0.0.1:9999
 @Service
 public class TestService {
 
+    /**
+     * overwrite：可以更新任务信息
+     * disabled：任务启用还是禁用
+     */
     @XxlJob(value = "testJob")
     @XxlRegister(cron = "0 0 0 * * ? *",
             author = "hydra",
-            jobDesc = "测试job")
+            jobDesc = "测试job", disabled = true, overwrite = true)
     public void testJob(){
         System.out.println("#公众号：码农参上");
     }

@@ -67,4 +67,30 @@ public class JobInfoServiceImpl implements JobInfoService {
         throw new RuntimeException("add jobInfo error!");
     }
 
+    @Override
+    public boolean updateJobInfo(XxlJobInfo xxlJobInfo) {
+        String url = jobProperties.getAdminAddresses() + "/jobinfo/update";
+        Map<String, Object> paramMap = BeanUtil.beanToMap(xxlJobInfo);
+        HttpResponse response = HttpRequest.post(url)
+                .form(paramMap)
+                .cookie(jobLoginService.getCookie())
+                .execute();
+        JSON json = JSONUtil.parse(response.body());
+        Object code = json.getByPath("code");
+        return code.equals(200);
+    }
+
+    @Override
+    public boolean startOrStopJob(XxlJobInfo xxlJobInfo) {
+        String action = xxlJobInfo.getTriggerStatus() == 0 ? "stop" : "start";
+        String url = jobProperties.getAdminAddresses() + "/jobinfo/" + action;
+        Map<String, Object> paramMap = BeanUtil.beanToMap(xxlJobInfo);
+        HttpResponse response = HttpRequest.post(url)
+                .form(paramMap)
+                .cookie(jobLoginService.getCookie())
+                .execute();
+        JSON json = JSONUtil.parse(response.body());
+        Object code = json.getByPath("code");
+        return code.equals(200);
+    }
 }

@@ -8,6 +8,7 @@ import com.xxl.job.plus.executor.model.XxlJobGroup;
 import com.xxl.job.plus.executor.model.XxlJobInfo;
 import com.xxl.job.plus.executor.service.JobGroupService;
 import com.xxl.job.plus.executor.service.JobInfoService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -89,19 +90,30 @@ public class XxlJobAutoRegister implements ApplicationListener<ApplicationReadyE
                 if (executeMethod.isAnnotationPresent(XxlRegister.class)) {
                     XxlRegister xxlRegister = executeMethod.getAnnotation(XxlRegister.class);
                     List<XxlJobInfo> jobInfo = jobInfoService.getJobInfo(xxlJobGroup.getId(), xxlJob.value());
+                    XxlJobInfo oldXxlJobInfo = null;
                     if (!jobInfo.isEmpty()) {
                         // 因为是模糊查询，需要再判断一次
-                        Optional<XxlJobInfo> first = jobInfo.stream()
+                        Optional<XxlJobInfo> optional = jobInfo.stream()
                                 .filter(xxlJobInfo -> xxlJobInfo.getExecutorHandler().equals(xxlJob.value()))
                                 .findFirst();
-                        if (first.isPresent()) {
+                        if(optional.isPresent()){
+                            oldXxlJobInfo = optional.get();
+                        }
+                        if (!xxlRegister.overwrite()) {
                             continue;
                         }
                     }
-
                     XxlJobInfo xxlJobInfo = createXxlJobInfo(xxlJobGroup, xxlJob, xxlRegister);
-                    Integer jobInfoId = jobInfoService.addJobInfo(xxlJobInfo);
-                    log.info("register handler:[{}], jobInfoId:[{}]", xxlJob.value(), jobInfoId);
+                    if(oldXxlJobInfo == null){
+                        Integer jobInfoId = jobInfoService.addJobInfo(xxlJobInfo);
+                        log.info("add job info handler:[{}], jobInfoId:[{}]", xxlJob.value(), jobInfoId);
+                    }else{
+                        BeanUtils.copyProperties(xxlJobInfo, oldXxlJobInfo, "id", "jobGroup");
+                        boolean isOk = jobInfoService.updateJobInfo(oldXxlJobInfo);
+                        log.info("update job info handler:[{}], jobId:[{}], isOk:[{}]", xxlJob.value(), oldXxlJobInfo.getId(), isOk);
+                        isOk = jobInfoService.startOrStopJob(oldXxlJobInfo);
+                        log.info("[{}] job info handler:[{}], jobId:[{}], isOk:[{}]", xxlRegister.disabled() ? "stop" : "start", oldXxlJobInfo.getId(), isOk);
+                    }
                 }
             }
         }
@@ -122,7 +134,7 @@ public class XxlJobAutoRegister implements ApplicationListener<ApplicationReadyE
         xxlJobInfo.setExecutorTimeout(0);
         xxlJobInfo.setExecutorFailRetryCount(0);
         xxlJobInfo.setGlueRemark("GLUE代码初始化");
-        xxlJobInfo.setTriggerStatus(xxlRegister.triggerStatus());
+        xxlJobInfo.setTriggerStatus(xxlRegister.disabled() ? 0 : 1);
         return xxlJobInfo;
     }
 }

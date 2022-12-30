@@ -26,5 +26,14 @@ public @interface XxlRegister {
      * */
     String executorRouteStrategy() default "ROUND";
 
-    int triggerStatus() default 0;
+    /**
+     * 任务禁用/启用
+     * @return
+     */
+    boolean disabled() default false;
+
+    /**
+     * 是否更新任务
+     */
+    boolean overwrite() default false;
 }

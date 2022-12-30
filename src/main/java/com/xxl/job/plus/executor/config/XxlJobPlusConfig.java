@@ -33,7 +33,7 @@ public class XxlJobPlusConfig {
     public XxlJobSpringExecutor xxlJobExecutor() {
         XxlJobSpringExecutor xxlJobSpringExecutor = new XxlJobSpringExecutor();
         xxlJobSpringExecutor.setAdminAddresses(jobProperties.getAdminAddresses());
-        xxlJobSpringExecutor.setAppname(jobProperties.getAppName());
+        xxlJobSpringExecutor.setAppname(jobProperties.getAppname());
         xxlJobSpringExecutor.setAddress(jobProperties.getAddress());
         xxlJobSpringExecutor.setIp(jobProperties.getIp());
         xxlJobSpringExecutor.setPort(jobProperties.getPort());

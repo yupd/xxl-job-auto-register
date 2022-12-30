@@ -22,7 +22,6 @@ import java.util.stream.Collectors;
  * @date: 2022/9/19 17:34
  * @version: 1.0
  */
-@Service
 public class JobGroupServiceImpl implements JobGroupService {
 
     @Value("${xxl.job.admin.addresses}")

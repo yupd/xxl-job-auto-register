@@ -24,7 +24,6 @@ import java.util.stream.Collectors;
  * @date: 2022/9/20 10:36
  * @version: 1.0
  */
-@Service
 public class JobInfoServiceImpl implements JobInfoService {
 
     @Value("${xxl.job.admin.addresses}")

@@ -28,7 +28,6 @@ import java.util.Optional;
  * @date: 2022/9/20 9:57
  * @version: 1.0
  */
-@Component
 public class XxlJobAutoRegister implements ApplicationListener<ApplicationReadyEvent>,
         ApplicationContextAware {
 

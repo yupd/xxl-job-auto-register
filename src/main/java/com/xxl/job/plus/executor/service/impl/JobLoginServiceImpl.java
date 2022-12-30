@@ -17,7 +17,6 @@ import java.util.Optional;
  * @date: 2022/9/19 17:49
  * @version: 1.0
  */
-@Service
 public class JobLoginServiceImpl implements JobLoginService {
 
     @Value("${xxl.job.admin.addresses}")

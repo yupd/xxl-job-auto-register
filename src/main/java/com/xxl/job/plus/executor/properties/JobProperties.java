@@ -56,7 +56,7 @@ public class JobProperties {
     public String getExecutorAddress(){
         ip = ip != null && ip.trim().length() > 0 ? ip : IpUtil.getIp();
         if (address == null || address.trim().length() == 0) {
-            return IpUtil.getIpPort(ip, port);
+            return "http://" + IpUtil.getIpPort(ip, port);
         }
         return address;
     }

@@ -1,20 +1,24 @@
-package com.github.kangarooxin.spring.boot.starter.elastic.job3.properties;
+package com.xxl.job.plus.executor.properties;
 
-import lombok.Data;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
- * @author kangaroo_xin
+ * @author yupd
  */
-@Data
-public class TracingConfig {
+@ConfigurationProperties(prefix = "xxl.job")
+public class JobProperties {
 
-    /**
-     * 事件追踪 类型
-     */
-    private String type;
+    private String adminAddresses;
 
-    /**
-     * 数据源bean名称
-     */
-    private String dataSourceBeanName;
+    private String appName;
+
+    private String title;
+
+    private Integer addressType;
+
+    private String addressList;
+
+    private String username;
+
+    private String password;
 }

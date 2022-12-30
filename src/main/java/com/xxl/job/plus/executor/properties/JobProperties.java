@@ -38,13 +38,10 @@ public class JobProperties {
     @Value("${xxl.job.executor.logretentiondays}")
     private int logRetentionDays;
 
-    @Value("${xxl.job.executor.title}")
-    private String title;
-
     /**
      * 执行器地址类型：0=自动注册、1=手动录入
      */
-    @Value("${xxl.job.executor.addressType:0}")
+    @Value("${xxl.job.executor.addressType:1}")
     private Integer addressType;
 
     @Value("${xxl.job.admin.username}")

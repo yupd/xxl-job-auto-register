@@ -34,7 +34,7 @@ public class JobGroupServiceImpl implements JobGroupService {
         String url=jobProperties.getAdminAddresses()+"/jobgroup/pageList";
         HttpResponse response = HttpRequest.post(url)
                 .form("appname", jobProperties.getAppname())
-                .form("title", jobProperties.getTitle())
+                .form("title", jobProperties.getAppname())
                 .cookie(jobLoginService.getCookie())
                 .execute();
 
@@ -52,7 +52,7 @@ public class JobGroupServiceImpl implements JobGroupService {
         String url=jobProperties.getAdminAddresses()+"/jobgroup/save";
         HttpRequest httpRequest = HttpRequest.post(url)
                 .form("appname", jobProperties.getAppname())
-                .form("title", jobProperties.getTitle());
+                .form("title", jobProperties.getAppname());
 
         httpRequest.form("addressType", jobProperties.getAddressType());
         if (jobProperties.getAddressType().equals(1)){
@@ -73,7 +73,7 @@ public class JobGroupServiceImpl implements JobGroupService {
         List<XxlJobGroup> jobGroup = getJobGroup();
         Optional<XxlJobGroup> has = jobGroup.stream()
                 .filter(xxlJobGroup -> xxlJobGroup.getAppname().equals(jobProperties.getAppname())
-                        && xxlJobGroup.getTitle().equals(jobProperties.getTitle()))
+                        && xxlJobGroup.getTitle().equals(jobProperties.getAppname()))
                 .findAny();
         return has.isPresent();
     }

@@ -9,6 +9,7 @@ import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.xxl.job.plus.executor.model.XxlJobInfo;
+import com.xxl.job.plus.executor.properties.JobProperties;
 import com.xxl.job.plus.executor.service.JobInfoService;
 import com.xxl.job.plus.executor.service.JobLoginService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,15 +27,15 @@ import java.util.stream.Collectors;
  */
 public class JobInfoServiceImpl implements JobInfoService {
 
-    @Value("${xxl.job.admin.addresses}")
-    private String adminAddresses;
+    @Autowired
+    private JobProperties jobProperties;
 
     @Autowired
     private JobLoginService jobLoginService;
 
     @Override
     public List<XxlJobInfo> getJobInfo(Integer jobGroupId,String executorHandler) {
-        String url=adminAddresses+"/jobinfo/pageList";
+        String url=jobProperties.getAdminAddresses()+"/jobinfo/pageList";
         HttpResponse response = HttpRequest.post(url)
                 .form("jobGroup", jobGroupId)
                 .form("executorHandler", executorHandler)
@@ -53,7 +54,7 @@ public class JobInfoServiceImpl implements JobInfoService {
 
     @Override
     public Integer addJobInfo(XxlJobInfo xxlJobInfo) {
-        String url=adminAddresses+"/jobinfo/add";
+        String url=jobProperties.getAdminAddresses()+"/jobinfo/add";
         Map<String, Object> paramMap = BeanUtil.beanToMap(xxlJobInfo);
         HttpResponse response = HttpRequest.post(url)
                 .form(paramMap)

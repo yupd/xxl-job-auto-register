@@ -1,5 +1,6 @@
 package com.xxl.job.plus.executor.config;
 
+import com.xxl.job.core.executor.impl.XxlJobSpringExecutor;
 import com.xxl.job.plus.executor.core.XxlJobAutoRegister;
 import com.xxl.job.plus.executor.properties.JobProperties;
 import com.xxl.job.plus.executor.service.JobGroupService;
@@ -8,6 +9,7 @@ import com.xxl.job.plus.executor.service.JobLoginService;
 import com.xxl.job.plus.executor.service.impl.JobGroupServiceImpl;
 import com.xxl.job.plus.executor.service.impl.JobInfoServiceImpl;
 import com.xxl.job.plus.executor.service.impl.JobLoginServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -20,8 +22,26 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 @EnableConfigurationProperties({JobProperties.class})
-@ConditionalOnProperty(prefix = "xxl.job.plus", name = "enabled", matchIfMissing = true)
+@ConditionalOnProperty(prefix = "xxl.job", name = "enabled", matchIfMissing = true)
 public class XxlJobPlusConfig {
+
+    @Autowired
+    private JobProperties jobProperties;
+
+    @Bean
+    @ConditionalOnMissingBean
+    public XxlJobSpringExecutor xxlJobExecutor() {
+        XxlJobSpringExecutor xxlJobSpringExecutor = new XxlJobSpringExecutor();
+        xxlJobSpringExecutor.setAdminAddresses(jobProperties.getAdminAddresses());
+        xxlJobSpringExecutor.setAppname(jobProperties.getAppName());
+        xxlJobSpringExecutor.setAddress(jobProperties.getAddress());
+        xxlJobSpringExecutor.setIp(jobProperties.getIp());
+        xxlJobSpringExecutor.setPort(jobProperties.getPort());
+        xxlJobSpringExecutor.setAccessToken(jobProperties.getAccessToken());
+        xxlJobSpringExecutor.setLogPath(jobProperties.getLogPath());
+        xxlJobSpringExecutor.setLogRetentionDays(jobProperties.getLogRetentionDays());
+        return xxlJobSpringExecutor;
+    }
 
     @Bean
     @ConditionalOnMissingBean

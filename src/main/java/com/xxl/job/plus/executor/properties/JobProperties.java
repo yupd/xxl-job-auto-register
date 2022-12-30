@@ -16,6 +16,18 @@ public class JobProperties {
 
     private String appName;
 
+    private String accessToken;
+
+    private String address;
+
+    private String ip;
+
+    private int port;
+
+    private String logPath;
+
+    private int logRetentionDays;
+
     private String title;
 
     private Integer addressType;

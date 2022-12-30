@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.cn.hydra</groupId>
-    <artifactId>spring-boot-starter-xxljob-autoregister</artifactId>
+    <artifactId>spring-boot-starter-xxljob-wrapper</artifactId>
     <version>0.0.1</version>
 
     <properties>

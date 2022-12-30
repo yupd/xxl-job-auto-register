@@ -56,10 +56,10 @@ public class JobGroupServiceImpl implements JobGroupService {
 
         httpRequest.form("addressType", jobProperties.getAddressType());
         if (jobProperties.getAddressType().equals(1)){
-            if (Strings.isBlank(jobProperties.getAddressList())){
+            if (Strings.isBlank(jobProperties.getExecutorAddress())){
                 throw new RuntimeException("手动录入模式下,执行器地址列表不能为空");
             }
-            httpRequest.form("addressList", jobProperties.getAddressList());
+            httpRequest.form("addressList", jobProperties.getExecutorAddress());
         }
 
         HttpResponse response = httpRequest.cookie(jobLoginService.getCookie())

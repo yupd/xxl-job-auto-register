@@ -1,5 +1,6 @@
 package com.xxl.job.plus.executor.properties;
 
+import com.xxl.job.core.util.IpUtil;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Value;
@@ -46,15 +47,18 @@ public class JobProperties {
     @Value("${xxl.job.executor.addressType:0}")
     private Integer addressType;
 
-    /**
-     * 执行器地址列表，多地址逗号分隔(手动录入)
-     */
-    @Value("${xxl.job.executor.addressList:}")
-    private String addressList;
-
     @Value("${xxl.job.admin.username}")
     private String username;
 
     @Value("${xxl.job.admin.password}")
     private String password;
+
+    public String getExecutorAddress(){
+        ip = ip != null && ip.trim().length() > 0 ? ip : IpUtil.getIp();
+        if (address == null || address.trim().length() == 0) {
+            return IpUtil.getIpPort(ip, port);
+        }
+        return address;
+    }
+
 }

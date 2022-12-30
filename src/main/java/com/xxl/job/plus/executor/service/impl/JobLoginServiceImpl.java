@@ -22,14 +22,14 @@ public class JobLoginServiceImpl implements JobLoginService {
     @Autowired
     private JobProperties jobProperties;
 
-    private final Map<String,String> loginCookie=new HashMap<>();
+    private final Map<String, String> loginCookie = new HashMap<>();
 
     @Override
     public void login() {
-        String url=jobProperties.getAdminAddresses()+"/login";
+        String url = jobProperties.getAdminAddresses() + "/login";
         HttpResponse response = HttpRequest.post(url)
-                .form("userName",jobProperties.getUsername())
-                .form("password",jobProperties.getPassword())
+                .form("userName", jobProperties.getUsername())
+                .form("password", jobProperties.getPassword())
                 .execute();
         List<HttpCookie> cookies = response.getCookies();
         Optional<HttpCookie> cookieOpt = cookies.stream()
@@ -39,15 +39,15 @@ public class JobLoginServiceImpl implements JobLoginService {
         }
 
         String value = cookieOpt.get().getValue();
-        loginCookie.put("XXL_JOB_LOGIN_IDENTITY",value);
+        loginCookie.put("XXL_JOB_LOGIN_IDENTITY", value);
     }
 
     @Override
     public String getCookie() {
         for (int i = 0; i < 3; i++) {
             String cookieStr = loginCookie.get("XXL_JOB_LOGIN_IDENTITY");
-            if (cookieStr !=null) {
-                return "XXL_JOB_LOGIN_IDENTITY="+cookieStr;
+            if (cookieStr != null) {
+                return "XXL_JOB_LOGIN_IDENTITY=" + cookieStr;
             }
             login();
         }

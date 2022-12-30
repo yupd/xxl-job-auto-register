@@ -31,7 +31,7 @@ public class JobGroupServiceImpl implements JobGroupService {
 
     @Override
     public List<XxlJobGroup> getJobGroup() {
-        String url=jobProperties.getAdminAddresses()+"/jobgroup/pageList";
+        String url = jobProperties.getAdminAddresses() + "/jobgroup/pageList";
         HttpResponse response = HttpRequest.post(url)
                 .form("appname", jobProperties.getAppname())
                 .form("title", jobProperties.getAppname())
@@ -49,14 +49,14 @@ public class JobGroupServiceImpl implements JobGroupService {
 
     @Override
     public boolean autoRegisterGroup() {
-        String url=jobProperties.getAdminAddresses()+"/jobgroup/save";
+        String url = jobProperties.getAdminAddresses() + "/jobgroup/save";
         HttpRequest httpRequest = HttpRequest.post(url)
                 .form("appname", jobProperties.getAppname())
                 .form("title", jobProperties.getAppname());
 
         httpRequest.form("addressType", jobProperties.getAddressType());
-        if (jobProperties.getAddressType().equals(1)){
-            if (Strings.isBlank(jobProperties.getExecutorAddress())){
+        if (jobProperties.getAddressType().equals(1)) {
+            if (Strings.isBlank(jobProperties.getExecutorAddress())) {
                 throw new RuntimeException("手动录入模式下,执行器地址列表不能为空");
             }
             httpRequest.form("addressList", jobProperties.getExecutorAddress());

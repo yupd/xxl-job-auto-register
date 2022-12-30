@@ -32,8 +32,8 @@ public class JobInfoServiceImpl implements JobInfoService {
     private JobLoginService jobLoginService;
 
     @Override
-    public List<XxlJobInfo> getJobInfo(Integer jobGroupId,String executorHandler) {
-        String url=jobProperties.getAdminAddresses()+"/jobinfo/pageList";
+    public List<XxlJobInfo> getJobInfo(Integer jobGroupId, String executorHandler) {
+        String url = jobProperties.getAdminAddresses() + "/jobinfo/pageList";
         HttpResponse response = HttpRequest.post(url)
                 .form("jobGroup", jobGroupId)
                 .form("executorHandler", executorHandler)
@@ -52,7 +52,7 @@ public class JobInfoServiceImpl implements JobInfoService {
 
     @Override
     public Integer addJobInfo(XxlJobInfo xxlJobInfo) {
-        String url=jobProperties.getAdminAddresses()+"/jobinfo/add";
+        String url = jobProperties.getAdminAddresses() + "/jobinfo/add";
         Map<String, Object> paramMap = BeanUtil.beanToMap(xxlJobInfo);
         HttpResponse response = HttpRequest.post(url)
                 .form(paramMap)
@@ -61,7 +61,7 @@ public class JobInfoServiceImpl implements JobInfoService {
 
         JSON json = JSONUtil.parse(response.body());
         Object code = json.getByPath("code");
-        if (code.equals(200)){
+        if (code.equals(200)) {
             return Convert.toInt(json.getByPath("content"));
         }
         throw new RuntimeException("add jobInfo error!");

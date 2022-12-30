@@ -7,6 +7,7 @@ import java.lang.annotation.Target;
 
 /**
  * 动态注册任务注解
+ *
  * @author yupd
  */
 @Target({ElementType.METHOD})

@@ -45,25 +45,25 @@ public class XxlJobPlusConfig {
 
     @Bean
     @ConditionalOnMissingBean
-    public XxlJobAutoRegister xxlJobAutoRegister(){
+    public XxlJobAutoRegister xxlJobAutoRegister() {
         return new XxlJobAutoRegister();
     }
 
     @Bean
     @ConditionalOnMissingBean
-    public JobGroupService jobGroupService(){
+    public JobGroupService jobGroupService() {
         return new JobGroupServiceImpl();
     }
 
     @Bean
     @ConditionalOnMissingBean
-    public JobInfoService jobInfoService(){
+    public JobInfoService jobInfoService() {
         return new JobInfoServiceImpl();
     }
 
     @Bean
     @ConditionalOnMissingBean
-    public JobLoginService jobLoginService(){
+    public JobLoginService jobLoginService() {
         return new JobLoginServiceImpl();
     }
 }

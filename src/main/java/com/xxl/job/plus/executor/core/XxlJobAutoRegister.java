@@ -30,7 +30,7 @@ import java.util.Optional;
 public class XxlJobAutoRegister implements ApplicationListener<ApplicationReadyEvent>,
         ApplicationContextAware {
 
-    private static final Log log =LogFactory.get();
+    private static final Log log = LogFactory.get();
 
     private ApplicationContext applicationContext;
 
@@ -42,14 +42,14 @@ public class XxlJobAutoRegister implements ApplicationListener<ApplicationReadyE
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        this.applicationContext=applicationContext;
+        this.applicationContext = applicationContext;
     }
 
     @Override
     public void onApplicationEvent(ApplicationReadyEvent event) {
-        //注册执行器
+        // 注册执行器
         addJobGroup();
-        //注册任务
+        // 注册任务
         addJobInfo();
     }
 
@@ -61,7 +61,7 @@ public class XxlJobAutoRegister implements ApplicationListener<ApplicationReadyE
             return;
         }
 
-        if(jobGroupService.autoRegisterGroup()) {
+        if (jobGroupService.autoRegisterGroup()) {
             log.info("auto register xxl-job group success!");
         }
     }
@@ -74,7 +74,7 @@ public class XxlJobAutoRegister implements ApplicationListener<ApplicationReadyE
         for (String beanDefinitionName : beanDefinitionNames) {
             Object bean = applicationContext.getBean(beanDefinitionName);
 
-            Map<Method, XxlJob> annotatedMethods  = MethodIntrospector.selectMethods(bean.getClass(),
+            Map<Method, XxlJob> annotatedMethods = MethodIntrospector.selectMethods(bean.getClass(),
                     new MethodIntrospector.MetadataLookup<XxlJob>() {
                         @Override
                         public XxlJob inspect(Method method) {
@@ -89,7 +89,7 @@ public class XxlJobAutoRegister implements ApplicationListener<ApplicationReadyE
                 if (executeMethod.isAnnotationPresent(XxlRegister.class)) {
                     XxlRegister xxlRegister = executeMethod.getAnnotation(XxlRegister.class);
                     List<XxlJobInfo> jobInfo = jobInfoService.getJobInfo(xxlJobGroup.getId(), xxlJob.value());
-                    if (!jobInfo.isEmpty()){
+                    if (!jobInfo.isEmpty()) {
                         // 因为是模糊查询，需要再判断一次
                         Optional<XxlJobInfo> first = jobInfo.stream()
                                 .filter(xxlJobInfo -> xxlJobInfo.getExecutorHandler().equals(xxlJob.value()))
@@ -101,14 +101,14 @@ public class XxlJobAutoRegister implements ApplicationListener<ApplicationReadyE
 
                     XxlJobInfo xxlJobInfo = createXxlJobInfo(xxlJobGroup, xxlJob, xxlRegister);
                     Integer jobInfoId = jobInfoService.addJobInfo(xxlJobInfo);
-                    log.info("jobInfoId:[{}]", jobInfoId);
+                    log.info("register handler:[{}], jobInfoId:[{}]", xxlJob.value(), jobInfoId);
                 }
             }
         }
     }
 
-    private XxlJobInfo createXxlJobInfo(XxlJobGroup xxlJobGroup, XxlJob xxlJob, XxlRegister xxlRegister){
-        XxlJobInfo xxlJobInfo=new XxlJobInfo();
+    private XxlJobInfo createXxlJobInfo(XxlJobGroup xxlJobGroup, XxlJob xxlJob, XxlRegister xxlRegister) {
+        XxlJobInfo xxlJobInfo = new XxlJobInfo();
         xxlJobInfo.setJobGroup(xxlJobGroup.getId());
         xxlJobInfo.setJobDesc(xxlRegister.jobDesc());
         xxlJobInfo.setAuthor(xxlRegister.author());
@@ -123,8 +123,6 @@ public class XxlJobAutoRegister implements ApplicationListener<ApplicationReadyE
         xxlJobInfo.setExecutorFailRetryCount(0);
         xxlJobInfo.setGlueRemark("GLUE代码初始化");
         xxlJobInfo.setTriggerStatus(xxlRegister.triggerStatus());
-
         return xxlJobInfo;
     }
-
 }

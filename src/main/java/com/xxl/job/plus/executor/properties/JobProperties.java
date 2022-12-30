@@ -50,7 +50,7 @@ public class JobProperties {
     @Value("${xxl.job.admin.password}")
     private String password;
 
-    public String getExecutorAddress(){
+    public String getExecutorAddress() {
         ip = ip != null && ip.trim().length() > 0 ? ip : IpUtil.getIp();
         if (address == null || address.trim().length() == 0) {
             return "http://" + IpUtil.getIpPort(ip, port);

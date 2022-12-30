@@ -13,8 +13,6 @@ import com.xxl.job.plus.executor.properties.JobProperties;
 import com.xxl.job.plus.executor.service.JobInfoService;
 import com.xxl.job.plus.executor.service.JobLoginService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;

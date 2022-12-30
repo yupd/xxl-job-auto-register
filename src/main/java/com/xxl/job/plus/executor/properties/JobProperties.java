@@ -40,15 +40,15 @@ public class JobProperties {
     @Value("${xxl.job.executor.title}")
     private String title;
 
-    /*
+    /**
      * 执行器地址类型：0=自动注册、1=手动录入
-     * */
+     */
     @Value("${xxl.job.executor.addressType:0}")
     private Integer addressType;
 
-    /*
+    /**
      * 执行器地址列表，多地址逗号分隔(手动录入)
-     * */
+     */
     @Value("${xxl.job.executor.addressList:}")
     private String addressList;
 

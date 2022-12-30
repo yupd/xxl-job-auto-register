@@ -16,7 +16,6 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ApplicationListener;
 import org.springframework.core.MethodIntrospector;
 import org.springframework.core.annotation.AnnotatedElementUtils;
-import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
 import java.util.List;
@@ -54,13 +53,17 @@ public class XxlJobAutoRegister implements ApplicationListener<ApplicationReadyE
         addJobInfo();
     }
 
-    //自动注册执行器
+    /**
+     * 自动注册执行器
+     */
     private void addJobGroup() {
-        if (jobGroupService.preciselyCheck())
+        if (jobGroupService.preciselyCheck()) {
             return;
+        }
 
-        if(jobGroupService.autoRegisterGroup())
+        if(jobGroupService.autoRegisterGroup()) {
             log.info("auto register xxl-job group success!");
+        }
     }
 
     private void addJobInfo() {
@@ -82,21 +85,23 @@ public class XxlJobAutoRegister implements ApplicationListener<ApplicationReadyE
                 Method executeMethod = methodXxlJobEntry.getKey();
                 XxlJob xxlJob = methodXxlJobEntry.getValue();
 
-                //自动注册
+                // 自动注册
                 if (executeMethod.isAnnotationPresent(XxlRegister.class)) {
                     XxlRegister xxlRegister = executeMethod.getAnnotation(XxlRegister.class);
                     List<XxlJobInfo> jobInfo = jobInfoService.getJobInfo(xxlJobGroup.getId(), xxlJob.value());
                     if (!jobInfo.isEmpty()){
-                        //因为是模糊查询，需要再判断一次
+                        // 因为是模糊查询，需要再判断一次
                         Optional<XxlJobInfo> first = jobInfo.stream()
                                 .filter(xxlJobInfo -> xxlJobInfo.getExecutorHandler().equals(xxlJob.value()))
                                 .findFirst();
-                        if (first.isPresent())
+                        if (first.isPresent()) {
                             continue;
+                        }
                     }
 
                     XxlJobInfo xxlJobInfo = createXxlJobInfo(xxlJobGroup, xxlJob, xxlRegister);
                     Integer jobInfoId = jobInfoService.addJobInfo(xxlJobInfo);
+                    log.info("jobInfoId:[{}]", jobInfoId);
                 }
             }
         }

@@ -5,8 +5,6 @@ import cn.hutool.http.HttpResponse;
 import com.xxl.job.plus.executor.properties.JobProperties;
 import com.xxl.job.plus.executor.service.JobLoginService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
 
 import java.net.HttpCookie;
 import java.util.HashMap;
@@ -36,8 +34,9 @@ public class JobLoginServiceImpl implements JobLoginService {
         List<HttpCookie> cookies = response.getCookies();
         Optional<HttpCookie> cookieOpt = cookies.stream()
                 .filter(cookie -> cookie.getName().equals("XXL_JOB_LOGIN_IDENTITY")).findFirst();
-        if (!cookieOpt.isPresent())
+        if (!cookieOpt.isPresent()) {
             throw new RuntimeException("get xxl-job cookie error!");
+        }
 
         String value = cookieOpt.get().getValue();
         loginCookie.put("XXL_JOB_LOGIN_IDENTITY",value);
@@ -54,6 +53,4 @@ public class JobLoginServiceImpl implements JobLoginService {
         }
         throw new RuntimeException("get xxl-job cookie error!");
     }
-
-
 }

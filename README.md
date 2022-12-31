@@ -89,7 +89,6 @@ public class TestService {
         System.out.println("#公众号：码农参上");
     }
 
-
     @XxlJob(value = "testJob222")
     @XxlRegister(cron = "59 1-2 0 * * ?",
             triggerStatus = 1)

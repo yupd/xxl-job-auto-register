@@ -9,8 +9,6 @@
 ```properties
 # 【已删除】执行器名称，使用 xxl.job.executor.appname 作为名称
 xxl.job.executor.title=Exe-Titl
-# 【默认为手动注册】执行器地址类型：0=自动注册、1=手动录入，默认为1
-xxl.job.executor.addressType=1
 # 【已删除】使用原生的实现逻辑获取address
 xxl.job.executor.addressList=http://127.0.0.1:9999
 ```

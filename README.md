@@ -15,6 +15,7 @@ xxl.job.executor.addressList=http://127.0.0.1:9999
 
 - 注解配置优化
 ```java
+@Service
 public class TestService {
     @XxlRegister(cron = "0 0 0 * * ? *",
             author = "hydra",

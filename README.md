@@ -8,7 +8,7 @@
 
 ```properties
 # 【已删除】执行器名称，使用 xxl.job.executor.appname 作为名称
-xxl.job.executor.title=Exe-Titl
+xxl.job.executor.title=Exe-Title
 # 【已删除】使用原生的实现逻辑获取address
 xxl.job.executor.addressList=http://127.0.0.1:9999
 ```

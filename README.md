@@ -38,8 +38,8 @@ mvn clean install
 
 ```xml
 <dependency>
-    <groupId>com.cn.hydra</groupId>
-    <artifactId>xxljob-autoregister-spring-boot-starter</artifactId>
+    <groupId>io.github.yupd</groupId>
+    <artifactId>spring-boot-starter-xxljob-wrapper</artifactId>
     <version>0.0.1</version>
 </dependency>
 ```

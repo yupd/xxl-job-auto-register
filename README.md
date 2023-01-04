@@ -1,7 +1,5 @@
 ## xxljob-autoregister-spring-boot-starter
 
-**********************************
-
 > 自动注册xxl-job执行器以及任务
 
 - 减少参数配置。
